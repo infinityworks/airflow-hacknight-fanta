@@ -22,10 +22,10 @@ default_args = {
     # 'end_date': datetime(2016, 1, 1),
 }
 
-dag = DAG("tutorial", default_args=default_args, schedule_interval=timedelta(1))
+dag = DAG("S3 pollin'", default_args=default_args, schedule_interval=timedelta(1))
 
 # t1, t2 and t3 are examples of tasks created by instantiating operators
-t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
+t1 = BashOperator(task_id="Hello S3 World", bash_command="date", dag=dag)
 
 t2 = BashOperator(task_id="sleep", bash_command="sleep 5", retries=3, dag=dag)
 
@@ -44,5 +44,18 @@ t3 = BashOperator(
     dag=dag,
 )
 
+s3sensor = S3KeySensor(
+    task_id='new_s3_file_in_fanta-bucket',
+    bucket_key='*',
+    wildcard_match=True,
+    bucket_name='airflow-input-fanta',
+    s3_conn_id='s3://airflow-input-fanta',
+    timeout=18*60*60,
+    poke_interval=120,
+    dag=dag)
+
 t2.set_upstream(t1)
 t3.set_upstream(t1)
+
+s3sensor > t1
+
