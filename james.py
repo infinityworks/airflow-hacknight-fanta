@@ -5,6 +5,7 @@ http://airflow.readthedocs.org/en/latest/tutorial.html
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from datetime import datetime, timedelta
+ from airflow.operators import S3KeySensor
 
 
 default_args = {
