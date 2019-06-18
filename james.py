@@ -22,7 +22,7 @@ default_args = {
     # 'end_date': datetime(2016, 1, 1),
 }
 
-dag = DAG("S3 pollin", default_args=default_args, schedule_interval=timedelta(1))
+dag = DAG("S3-pollin", default_args=default_args, schedule_interval=timedelta(1))
 
 # t1, t2 and t3 are examples of tasks created by instantiating operators
 t1 = BashOperator(task_id="Hello S3 World", bash_command="date", dag=dag)
