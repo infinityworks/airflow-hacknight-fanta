@@ -58,5 +58,5 @@ s3sensor = S3KeySensor(
 t2.set_upstream(t1)
 t3.set_upstream(t1)
 
-s3sensor > t1
+s3sensor >> t1
 
